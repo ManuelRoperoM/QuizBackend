@@ -7,6 +7,8 @@ import {TypeOrmModule} from '@nestjs/typeorm'
 import { Quiz } from './modules/quiz/quiz.entity';
 import { Test } from './modules/test/test.entity';
 import { TestModule } from './modules/test/test.module';
+import { QuestionsModule } from './modules/questions/questions.module';
+import { Questions } from './modules/questions/questions.entity';
 @Module({
   imports: [QuizModule, DatabaseModule, TypeOrmModule.forRoot({
     type: 'mysql',
@@ -15,9 +17,10 @@ import { TestModule } from './modules/test/test.module';
     username: 'user',
     password: 'secret',
     database: 'QUIZ',
-    entities: [Quiz,Test],
+    entities: [Quiz,Test,Questions],
+    //entities: [Quiz,Test],
     synchronize: true,
-  }), TestModule],
+  }), TestModule, QuestionsModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -3,6 +3,7 @@ import { config as dotenvConfig } from 'dotenv';
 import { DataSource, DataSourceOptions } from "typeorm";
 import { Quiz } from '../modules/quiz/quiz.entity';
 import {Test} from '../modules/test/test.entity';
+import { Questions } from "src/modules/questions/questions.entity";
 const config = {
     type: 'mysql',
     host: 'localhost',
@@ -10,7 +11,7 @@ const config = {
     username: 'user',
     password: 'secret',
     database: 'QUIZ',
-    entities: [Quiz, Test],
+    entities: [Quiz, Test, Questions],
     synchronize: true,
     migrations: ["dist/migrations/*{.ts,.js}"],
     autoLoadEntities: true,

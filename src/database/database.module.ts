@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Quiz } from '../modules/quiz/quiz.entity';
+import { Questions } from 'src/modules/questions/questions.entity';
 
 @Module({
     imports: [TypeOrmModule.forRoot({
@@ -10,9 +11,9 @@ import { Quiz } from '../modules/quiz/quiz.entity';
         username: 'user',
         password: 'secret',
         database: 'QUIZ',
-        entities: [Quiz],
+        entities: [Quiz, Questions],
         synchronize: true,
       }), 
-      TypeOrmModule.forFeature([Quiz])]
+      TypeOrmModule.forFeature([Quiz, Questions])]
   })
   export class DatabaseModule {}
