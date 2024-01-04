@@ -44,4 +44,44 @@ export class QuizService {
             }
         }
     }
+
+    async findAllQuizes(){
+        try {
+            const allQuizzes = await this.quizRepository.find();
+            return{
+                status: true,
+                msg: "Quizes encontrados con exito",
+                data: allQuizzes
+            }
+            
+        } catch (error) {
+            return {
+                status: false,
+                msg: error.message
+            }   
+        }
+    }
+
+    async findQuizById(id: number){
+        try {
+            const quizById = await this.quizRepository.findBy({id:id})
+            if (quizById.length > 0) {
+                return {
+                    status: true,
+                    msge: "Quiz encontrado",
+                    data: quizById
+                }
+            }else{
+                return {
+                    status: true,
+                    msge: "No se encontro Quiz con id: "+id,
+                }
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
 }
