@@ -10,6 +10,7 @@ export class QuestionsService {
         private readonly questionsRepository: Repository<Questions>,
         private readonly httpService: HttpService
     ){}
+
     async generateQuestions(quizId: number){
         try {
             const questionsAPi = "https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean";
@@ -33,6 +34,48 @@ export class QuestionsService {
                 status: false,
                 msg: error.message
             };
+        }
+    }
+
+    async findAllQuestions(){
+        try {
+            
+            const allQuestions = await this.questionsRepository.find();
+            return{
+                status: true,
+                msge: "Preguntas encontradas con exito",
+                data: allQuestions
+            }
+            
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+    async findQuestionsByQuiz(quizId : number){
+        
+        try {
+            const quisQuestions =  await this.questionsRepository.findBy({quizId:quizId});
+            if (quisQuestions.length > 0) {
+                return{
+                    status: true,
+                    msge: "Preguntas encontradas con exito",
+                    data: quisQuestions
+                }
+            }else{
+                return{
+                    status: false,
+                    msge: "No se encontraron preguntas del quiz con ID: "+quizId
+                }
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
         }
     }
 }
