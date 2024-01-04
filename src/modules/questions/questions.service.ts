@@ -78,4 +78,27 @@ export class QuestionsService {
             }
         }
     }
+
+    async updateQuestion(data:any){
+        try {
+            const existQuestion = await this.questionsRepository.findBy({id: data.id});
+            if (existQuestion.length == 0) {
+                return{
+                    status: false,
+                    msge: "No existe el quiz con id "+data.id
+                }
+            }else {
+                await this.questionsRepository.update(data.id,data);
+                return{
+                    status: true,
+                    msge: "Pregunta actualizada con exito"
+                } 
+            }
+        } catch (error) {
+            return {
+                status:false,
+                msge: error.message
+            }
+        }
+    }
 }

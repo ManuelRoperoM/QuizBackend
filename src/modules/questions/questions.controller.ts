@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 
 @Controller('questions')
@@ -20,5 +20,9 @@ export class QuestionsController {
         return this.questionService.findQuestionsByQuiz(quizId);
     }
 
+    @Patch()
+    async updateQuestions(@Body() body: any){
+        return this.questionService.updateQuestion(body);
+    }
 
 }
