@@ -107,4 +107,30 @@ export class QuizService {
             }
         }
     }
+
+    async deleteQuiz(id:number){
+        try {
+            const quizToDelete = await this.quizRepository.findBy({id: id});
+            if (quizToDelete.length == 0) {
+                return {
+                    status: false,
+                    msge: "No se encontro quiz a eliminar"
+                }
+            }else{
+                await this.quizRepository.remove(quizToDelete);
+                return {
+                    status: true,
+                    msge: "Quiz eliminado exitosamente"
+                }
+            }
+
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+
 }

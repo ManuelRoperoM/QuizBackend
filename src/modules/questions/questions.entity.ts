@@ -26,7 +26,7 @@ export class Questions {
     quizId: number;
 
     // Definir la relación ManyToOne con Quiz
-    @ManyToOne( () => Quiz, (quiz) => quiz.questions)
+    @ManyToOne( () => Quiz, (quiz) => quiz.questions, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'quizId' })
     quiz: Quiz;
 }

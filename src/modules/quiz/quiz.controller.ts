@@ -26,4 +26,9 @@ export class QuizController {
         return await this.quizService.updateQuiz(data)
     }
 
+    @Delete('/:id')
+    async deleteQuizById(@Param('id') id:number){
+        return await this.quizService.deleteQuiz(id);
+    }
+
 }
