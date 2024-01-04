@@ -23,6 +23,7 @@ export class QuizService {
             }else{
                 const newQuiz = await this.quizRepository.save({name : data.name});
                 const generateQuestions = await this.questionsService.generateQuestions(newQuiz.id);
+
                 if(generateQuestions.status){
                     return {
                         status: true,
