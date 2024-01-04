@@ -1,28 +1,33 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 
 @Controller('questions')
 export class QuestionsController {
-    constructor(private readonly questionService: QuestionsService) {}
+    constructor(private readonly questionsService: QuestionsService) {}
 
     @Post()
     async generateQuestions(@Body() body: any){
-        return this.questionService.generateQuestions(body.quizId);
+        return this.questionsService.generateQuestions(body.quizId);
     }
 
     @Get()
     async findAllQuestions(){
-        return this.questionService.findAllQuestions();
+        return this.questionsService.findAllQuestions();
     }
     
     @Get('/quizQuestions/:quizId')
     async findQuestionsByQuiz(@Param('quizId') quizId: number){
-        return this.questionService.findQuestionsByQuiz(quizId);
+        return this.questionsService.findQuestionsByQuiz(quizId);
     }
 
     @Patch()
     async updateQuestions(@Body() body: any){
-        return this.questionService.updateQuestion(body);
+        return this.questionsService.updateQuestion(body);
+    }
+
+    @Delete('/:id')
+    async deleteQuestion(@Param('id') id:number){
+        return this.questionsService.deleteQuestion(id);
     }
 
 }

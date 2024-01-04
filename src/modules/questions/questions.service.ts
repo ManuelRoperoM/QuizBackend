@@ -101,4 +101,27 @@ export class QuestionsService {
             }
         }
     }
+
+    async deleteQuestion(id:number){
+        try {
+            const quiestionToDelete = await this.questionsRepository.findBy({id:id})
+            if (quiestionToDelete.length > 0) {
+                await this.questionsRepository.remove(quiestionToDelete);
+                return{
+                    status: true,
+                    msge: "Pregunta eliminada correctamente"
+                }
+            } else {
+                return {
+                    status: false,
+                    msge: "No se encontro pregunta a eliminar"
+                }
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
 }
