@@ -10,6 +10,11 @@ export class QuestionsController {
         return this.questionsService.generateQuestions(body.quizId);
     }
 
+    @Post('/createQuestion')
+    async createQuestion(@Body() body:any){
+        return this.questionsService.createQuestion(body)
+    }
+
     @Get()
     async findAllQuestions(){
         return this.questionsService.findAllQuestions();

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Questions } from './questions.entity';
 import { Repository } from 'typeorm';
 import { HttpService } from '@nestjs/axios';
+import { DEFAULT_FACTORY_CLASS_METHOD_KEY } from '@nestjs/common/module-utils/constants';
 @Injectable()
 export class QuestionsService {
     constructor(
@@ -34,6 +35,26 @@ export class QuestionsService {
                 status: false,
                 msg: error.message
             };
+        }
+    }
+
+    async createQuestion(data: any){
+        try {
+            await this.questionsRepository.save({
+                category: data.category,
+                question: data.question,
+                correctAnswer: data.correctAnswer,
+                quizId: data.quizId,
+            })
+            return{
+                status: true,
+                msge: "Pregunta creada correctamente"
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
         }
     }
 
