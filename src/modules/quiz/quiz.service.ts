@@ -84,4 +84,27 @@ export class QuizService {
             }
         }
     }
+
+    async updateQuiz(data: any){
+        try {
+            const existQuiz = await this.quizRepository.find({ where: { name: data.name } });
+            if (existQuiz.length == 0) {
+                await this.quizRepository.update(data.id,data);
+                return({
+                    status: true,
+                    msge: "servicio actualizado con exito"
+                })
+            }else{
+                return({
+                    status: false,
+                    msge: "Ya existe el nombre "+data.name+" y no se puede usar este nombre"
+                })
+            }
+        } catch (error) {
+            return {
+                status: true,
+                msg: error.message
+            }
+        }
+    }
 }
