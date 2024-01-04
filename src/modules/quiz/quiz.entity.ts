@@ -10,6 +10,6 @@ export class Quiz {
   @Column()
   name: string;
 
-  @OneToMany(() => Questions, (questions) => questions.quiz, { cascade: true }) // Asegúrate de usar el nombre correcto de la propiedad en Question
+  @OneToMany(() => Questions, (questions) => questions.quiz,{cascade:true, onDelete: 'CASCADE'})
   questions: Questions[];
 }

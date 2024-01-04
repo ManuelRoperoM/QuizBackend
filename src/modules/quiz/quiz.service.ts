@@ -44,4 +44,93 @@ export class QuizService {
             }
         }
     }
+
+    async findAllQuizes(){
+        try {
+            const allQuizzes = await this.quizRepository.find();
+            return{
+                status: true,
+                msg: "Quizes encontrados con exito",
+                data: allQuizzes
+            }
+            
+        } catch (error) {
+            return {
+                status: false,
+                msg: error.message
+            }   
+        }
+    }
+
+    async findQuizById(id: number){
+        try {
+            const quizById = await this.quizRepository.findBy({id:id})
+            if (quizById.length > 0) {
+                return {
+                    status: true,
+                    msge: "Quiz encontrado",
+                    data: quizById
+                }
+            }else{
+                return {
+                    status: true,
+                    msge: "No se encontro Quiz con id: "+id,
+                }
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+    async updateQuiz(data: any){
+        try {
+            const existQuiz = await this.quizRepository.find({ where: { name: data.name } });
+            if (existQuiz.length == 0) {
+                await this.quizRepository.update(data.id,data);
+                return({
+                    status: true,
+                    msge: "servicio actualizado con exito"
+                })
+            }else{
+                return({
+                    status: false,
+                    msge: "Ya existe el nombre "+data.name+" y no se puede usar este nombre"
+                })
+            }
+        } catch (error) {
+            return {
+                status: true,
+                msg: error.message
+            }
+        }
+    }
+
+    async deleteQuiz(id:number){
+        try {
+            const quizToDelete = await this.quizRepository.findBy({id: id});
+            if (quizToDelete.length == 0) {
+                return {
+                    status: false,
+                    msge: "No se encontro quiz a eliminar"
+                }
+            }else{
+                await this.quizRepository.remove(quizToDelete);
+                return {
+                    status: true,
+                    msge: "Quiz eliminado exitosamente"
+                }
+            }
+
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+
 }
