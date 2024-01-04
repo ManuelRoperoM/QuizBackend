@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Questions } from './questions.entity';
 import { Repository } from 'typeorm';
 import { HttpService } from '@nestjs/axios';
+import { DEFAULT_FACTORY_CLASS_METHOD_KEY } from '@nestjs/common/module-utils/constants';
 @Injectable()
 export class QuestionsService {
     constructor(
@@ -10,6 +11,7 @@ export class QuestionsService {
         private readonly questionsRepository: Repository<Questions>,
         private readonly httpService: HttpService
     ){}
+
     async generateQuestions(quizId: number){
         try {
             const questionsAPi = "https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean";
@@ -33,6 +35,114 @@ export class QuestionsService {
                 status: false,
                 msg: error.message
             };
+        }
+    }
+
+    async createQuestion(data: any){
+        try {
+            await this.questionsRepository.save({
+                category: data.category,
+                question: data.question,
+                correctAnswer: data.correctAnswer,
+                quizId: data.quizId,
+            })
+            return{
+                status: true,
+                msge: "Pregunta creada correctamente"
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+    async findAllQuestions(){
+        try {
+            
+            const allQuestions = await this.questionsRepository.find();
+            return{
+                status: true,
+                msge: "Preguntas encontradas con exito",
+                data: allQuestions
+            }
+            
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+    async findQuestionsByQuiz(quizId : number){
+        
+        try {
+            const quisQuestions =  await this.questionsRepository.findBy({quizId:quizId});
+            if (quisQuestions.length > 0) {
+                return{
+                    status: true,
+                    msge: "Preguntas encontradas con exito",
+                    data: quisQuestions
+                }
+            }else{
+                return{
+                    status: false,
+                    msge: "No se encontraron preguntas del quiz con ID: "+quizId
+                }
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+    async updateQuestion(data:any){
+        try {
+            const existQuestion = await this.questionsRepository.findBy({id: data.id});
+            if (existQuestion.length == 0) {
+                return{
+                    status: false,
+                    msge: "No existe el quiz con id "+data.id
+                }
+            }else {
+                await this.questionsRepository.update(data.id,data);
+                return{
+                    status: true,
+                    msge: "Pregunta actualizada con exito"
+                } 
+            }
+        } catch (error) {
+            return {
+                status:false,
+                msge: error.message
+            }
+        }
+    }
+
+    async deleteQuestion(id:number){
+        try {
+            const quiestionToDelete = await this.questionsRepository.findBy({id:id})
+            if (quiestionToDelete.length > 0) {
+                await this.questionsRepository.remove(quiestionToDelete);
+                return{
+                    status: true,
+                    msge: "Pregunta eliminada correctamente"
+                }
+            } else {
+                return {
+                    status: false,
+                    msge: "No se encontro pregunta a eliminar"
+                }
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
         }
     }
 }

@@ -95,10 +95,10 @@ export class QuizService {
                     msge: "servicio actualizado con exito"
                 })
             }else{
-                return({
+                return{
                     status: false,
                     msge: "Ya existe el nombre "+data.name+" y no se puede usar este nombre"
-                })
+                }
             }
         } catch (error) {
             return {
