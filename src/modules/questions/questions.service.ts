@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Questions } from './questions.entity';
 import { Repository } from 'typeorm';
 import { HttpService } from '@nestjs/axios';
-import { DEFAULT_FACTORY_CLASS_METHOD_KEY } from '@nestjs/common/module-utils/constants';
+import { CreateQuestions } from './dto';
+import { UpdateQuestion } from './dto';
 @Injectable()
 export class QuestionsService {
     constructor(
@@ -38,13 +39,13 @@ export class QuestionsService {
         }
     }
 
-    async createQuestion(data: any){
+    async createQuestion(data: CreateQuestions){
         try {
             await this.questionsRepository.save({
                 category: data.category,
                 question: data.question,
                 correctAnswer: data.correctAnswer,
-                quizId: data.quizId,
+                quizId: data.quizId
             })
             return{
                 status: true,
@@ -100,7 +101,7 @@ export class QuestionsService {
         }
     }
 
-    async updateQuestion(data:any){
+    async updateQuestion(data:UpdateQuestion){
         try {
             const existQuestion = await this.questionsRepository.findBy({id: data.id});
             if (existQuestion.length == 0) {

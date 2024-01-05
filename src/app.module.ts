@@ -22,7 +22,6 @@ import { Answers } from './modules/answers/answers.entity';
     password: 'secret',
     database: 'QUIZ',
     entities: [Quiz,Test,Questions,Users,Answers],
-    //entities: [Quiz,Test],
     synchronize: true,
   }), TestModule, QuestionsModule, UsersModule, AnswersModule],
   controllers: [AppController],

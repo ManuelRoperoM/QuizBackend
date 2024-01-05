@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUsers, UpdateUser } from './dto';
 
 @Injectable()
 export class UsersService {
@@ -10,7 +11,7 @@ export class UsersService {
         private readonly usersRepository: Repository<Users>
     ) {}
 
-    async createUser(data:any){
+    async createUser(data:CreateUsers){
         try {
             const existUser = await this.usersRepository.find({ where: { email: data.email } });
             if (existUser.length == 0) {
@@ -76,7 +77,7 @@ export class UsersService {
         }
     }
 
-    async updateUser(data:any){
+    async updateUser(data:UpdateUser){
         try {
             const existUser = await this.usersRepository.find({where: {email:data.email}});
             if (existUser.length == 0) {

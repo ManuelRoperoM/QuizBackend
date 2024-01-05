@@ -1,12 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUsers, UpdateUser } from './dto';
 
 @Controller('users')
 export class UsersController {
     constructor (private readonly usersService : UsersService){}
 
     @Post()
-    async createUser(@Body() data:any){
+    async createUser(@Body() data:CreateUsers){
         return await this.usersService.createUser(data);
     }
 
@@ -21,7 +22,7 @@ export class UsersController {
     }
 
     @Patch()
-    async updateUser(@Body() data:any){
+    async updateUser(@Body() data:UpdateUser){
         return await this.usersService.updateUser(data)
     }
 

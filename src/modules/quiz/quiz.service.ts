@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Quiz } from './quiz.entity';
-import { CreateQuizDto } from './dto';
+import { CreateQuizDto, UpdateQuiz } from './dto';
 import { QuestionsService } from '../questions/questions.service';
 @Injectable()
 export class QuizService {
@@ -85,7 +85,7 @@ export class QuizService {
         }
     }
 
-    async updateQuiz(data: any){
+    async updateQuiz(data: UpdateQuiz){
         try {
             const existQuiz = await this.quizRepository.find({ where: { name: data.name } });
             if (existQuiz.length == 0) {

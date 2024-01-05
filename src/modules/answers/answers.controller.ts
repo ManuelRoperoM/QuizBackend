@@ -1,12 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { AnswersService } from './answers.service';
+import { UpdateAnswer, UserAnswerDto } from './dto';
 
 @Controller('answers')
 export class AnswersController {
     constructor (private readonly answerService: AnswersService) {}
 
     @Post()
-    async registerResponses(@Body() body:any){
+    async registerResponses(@Body() body:UserAnswerDto){
         return await this.answerService.registerResponses(body)
     }
 
@@ -26,7 +27,7 @@ export class AnswersController {
     }
 
     @Patch()
-    async updateAnswer(@Body() body:any){
+    async updateAnswer(@Body() body:UpdateAnswer){
         return await this.answerService.updateAnswer(body)
     }
 

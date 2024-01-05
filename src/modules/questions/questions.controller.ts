@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
+import { CreateQuestions, UpdateQuestion } from './dto';
 
 @Controller('questions')
 export class QuestionsController {
@@ -11,7 +12,7 @@ export class QuestionsController {
     }
 
     @Post('/createQuestion')
-    async createQuestion(@Body() body:any){
+    async createQuestion(@Body() body:CreateQuestions){
         return this.questionsService.createQuestion(body)
     }
 
@@ -26,7 +27,7 @@ export class QuestionsController {
     }
 
     @Patch()
-    async updateQuestions(@Body() body: any){
+    async updateQuestions(@Body() body: UpdateQuestion){
         return this.questionsService.updateQuestion(body);
     }
 
