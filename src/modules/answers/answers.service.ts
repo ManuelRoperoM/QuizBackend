@@ -94,4 +94,26 @@ export class AnswersService {
             }
         }
     }
+    async updateAnswer(data:any){
+        try {
+            const existAnswer = await this.answersRepository.findBy({id:data.id});
+            if (existAnswer.length > 0) {
+                await this.answersRepository.update(data.id, data);
+                return{
+                    status: true,
+                    msge: "Respuesta actualizada correctamente"
+                }
+            }else {
+                return{
+                    status:false,
+                    msge: "No se encontro respuesta con id: "+data.id
+                }
+            }
+        } catch (error) {
+            return{
+                status: false,
+                msge: error.message
+            }
+        }
+    }
 }
