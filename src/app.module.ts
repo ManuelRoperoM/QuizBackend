@@ -9,6 +9,10 @@ import { Test } from './modules/test/test.entity';
 import { TestModule } from './modules/test/test.module';
 import { QuestionsModule } from './modules/questions/questions.module';
 import { Questions } from './modules/questions/questions.entity';
+import { UsersModule } from './modules/users/users.module';
+import { Users } from './modules/users/users.entity';
+import { AnswersModule } from './modules/answers/answers.module';
+import { Answers } from './modules/answers/answers.entity';
 @Module({
   imports: [QuizModule, DatabaseModule, TypeOrmModule.forRoot({
     type: 'mysql',
@@ -17,10 +21,10 @@ import { Questions } from './modules/questions/questions.entity';
     username: 'user',
     password: 'secret',
     database: 'QUIZ',
-    entities: [Quiz,Test,Questions],
+    entities: [Quiz,Test,Questions,Users,Answers],
     //entities: [Quiz,Test],
     synchronize: true,
-  }), TestModule, QuestionsModule],
+  }), TestModule, QuestionsModule, UsersModule, AnswersModule],
   controllers: [AppController],
   providers: [AppService],
 })
