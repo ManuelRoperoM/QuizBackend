@@ -1,6 +1,7 @@
 import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Quiz } from "../quiz/quiz.entity";
+import { Answers } from "../answers/answers.entity";
 
 @Entity()
 export class Questions {
@@ -29,4 +30,7 @@ export class Questions {
     @ManyToOne( () => Quiz, (quiz) => quiz.questions, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'quizId' })
     quiz: Quiz;
+
+    @OneToMany(() => Answers, (answers) => answers.quiz,{cascade:true, onDelete: 'CASCADE'})
+    answers: Answers
 }
