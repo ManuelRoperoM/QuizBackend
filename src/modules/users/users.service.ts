@@ -52,6 +52,7 @@ export class UsersService {
             }
         }
     }
+
     async findUserById(id:number){
         try {
             const user = await this.usersRepository.findBy({id:id});
@@ -65,6 +66,52 @@ export class UsersService {
                 return{
                     status: false,
                     msge: "No existe usuario con id "+id
+                }
+            }
+        } catch (error) {
+            return{
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+    async updateUser(data:any){
+        try {
+            const existUser = await this.usersRepository.find({where: {email:data.email}});
+            if (existUser.length == 0) {
+                await this.usersRepository.update(data.id,data);
+                return{
+                    status:true,
+                    msge: "Usuario actualizado correctamente",
+                }
+            } else {
+                return{
+                    status: false,
+                    msge: "Ya existe el email: "+data.email+" registrado"
+                }
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msge: error.message
+            }
+        }
+    }
+
+    async deleteUser(id:number){
+        try {
+            const userToDelete = await this.usersRepository.findBy({id:id})
+            if (userToDelete.length > 0) {
+                await this.usersRepository.remove(userToDelete);
+                return{
+                    status: true,
+                    msge: "Usuario eliminado correctamente"
+                }
+            } else {
+                return{
+                    status: false,
+                    msge: "NO existe usuario con id: "+id
                 }
             }
         } catch (error) {
