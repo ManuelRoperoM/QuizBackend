@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 
 @Controller('answers')
@@ -30,4 +30,8 @@ export class AnswersController {
         return await this.answerService.updateAnswer(body)
     }
 
+    @Delete('/:id')
+    async deleteAnswers(@Param('id') id:number){
+        return await this.answerService.updateDelete(id);
+    }
 }

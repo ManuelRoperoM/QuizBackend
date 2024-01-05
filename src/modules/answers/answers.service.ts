@@ -116,4 +116,26 @@ export class AnswersService {
             }
         }
     }
+    async updateDelete(id:number){
+        try {
+            const answerToDelete = await this.answersRepository.findBy({id:id});
+            if (answerToDelete.length > 0) {
+                await this.answersRepository.remove(answerToDelete)
+                return {
+                    status: true,
+                    msge: "Pregunta eliminada con exito"
+                }
+            } else {
+                return{
+                    status: false,
+                    msge: "No se encontro repuesta registrada con id: "+id
+                }
+            }
+        } catch (error) {
+            return{
+                status: false,
+                msge: error.message
+            }
+        }
+    }
 }
