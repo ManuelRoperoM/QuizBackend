@@ -24,12 +24,14 @@ export class AnswersService {
                 });
             }));
             return {
-                status: true,
+                status: 200,
+                operation: true,
                 msge: "Respuestas registradas exitosamente"
             }
         } catch (error) {
             return {
-                status: false,
+                status: 404,
+                operation: false,
                 msge: error.message
             }
         }
@@ -38,13 +40,15 @@ export class AnswersService {
         try {
             const answers = await this.answersRepository.find();
             return{
-                status: true,
+                status: 200,
+                operation: true,
                 msge: "Respuestas encontradas exitosamente",
                 data: answers
             }
         } catch (error) {
             return{
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
@@ -54,19 +58,22 @@ export class AnswersService {
             const answer = await this.answersRepository.findBy({id:id})
             if (answer.length > 0) {
                 return{
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Respuesta encontrada con exito",
                     data: answer
                 }
             } else {
                 return{
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "No se encontro respuesta con id: "+id
                 }
             }
         } catch (error) {
             return{
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
@@ -74,22 +81,25 @@ export class AnswersService {
     async findAnswersByUser(userId: number){
         try {
             const user = await this.usersService.findUserById(userId);
-            if (user.status) {
+            if (user.operation) {
                 const answers = await this.answersRepository.findBy({userId:userId})
                 return{
-                    status: true,
+                    status: 200,
+                    operation: false,
                     msge: "Respuestas encontradas satisfacoriamente",
                     data: answers
                 }
             } else {
                 return{
-                    status:false,
+                    status:202,
+                    operation: false,
                     msge:"No existe usuario con id: "+userId
                 }
             }
         } catch (error) {
             return{
-                status: false,
+                status:400,
+                operation: false,
                 msge: error.message
             }
         }
@@ -100,18 +110,21 @@ export class AnswersService {
             if (existAnswer.length > 0) {
                 await this.answersRepository.update(data.id, data);
                 return{
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Respuesta actualizada correctamente"
                 }
             }else {
                 return{
-                    status:false,
+                    status: 202,
+                    operation: false,
                     msge: "No se encontro respuesta con id: "+data.id
                 }
             }
         } catch (error) {
             return{
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
@@ -122,18 +135,21 @@ export class AnswersService {
             if (answerToDelete.length > 0) {
                 await this.answersRepository.remove(answerToDelete)
                 return {
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Pregunta eliminada con exito"
                 }
             } else {
                 return{
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "No se encontro repuesta registrada con id: "+id
                 }
             }
         } catch (error) {
             return{
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }

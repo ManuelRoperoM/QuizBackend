@@ -17,29 +17,33 @@ export class QuizService {
             const existQuiz = await this.quizRepository.find({ where: { name: data.name } });
             if (existQuiz.length > 0) {
                 return {
-                    status: "Error",
+                    status: 202,
+                    operation: false,
                     msg: "El Quiz con nombre "+data.name+" ya existe y no puede ser creado nuevamente"
                 };      
             }else{
                 const newQuiz = await this.quizRepository.save({name : data.name});
                 const generateQuestions = await this.questionsService.generateQuestions(newQuiz.id);
 
-                if(generateQuestions.status){
+                if(generateQuestions.operation){
                     return {
-                        status: true,
+                        status: 200,
+                        operation: true,
                         msg: "Quiz "+data.name+" creado correctamente"
                     };
                 }else{
                     await this.quizRepository.delete({ id: newQuiz.id })
                     return{
-                        status: false,
+                        status: 201,
+                        operation: false,
                         msg: "Error al generar las preguntas, quiz no guardado"
                     }
                 }
             }   
         } catch (error) {
             return{
-                status: false,
+                status:400,
+                operation: false,
                 msg: error
             }
         }
@@ -49,14 +53,16 @@ export class QuizService {
         try {
             const allQuizzes = await this.quizRepository.find();
             return{
-                status: true,
+                status: 200,
+                operation: true,
                 msg: "Quizes encontrados con exito",
                 data: allQuizzes
             }
             
         } catch (error) {
             return {
-                status: false,
+                status: 400,
+                operation: false,
                 msg: error.message
             }   
         }
@@ -67,19 +73,22 @@ export class QuizService {
             const quizById = await this.quizRepository.findBy({id:id})
             if (quizById.length > 0) {
                 return {
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Quiz encontrado",
                     data: quizById
                 }
             }else{
                 return {
-                    status: true,
+                    status: 202,
+                    operation: false,
                     msge: "No se encontro Quiz con id: "+id,
                 }
             }
         } catch (error) {
             return {
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
@@ -91,18 +100,21 @@ export class QuizService {
             if (existQuiz.length == 0) {
                 await this.quizRepository.update(data.id,data);
                 return({
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "servicio actualizado con exito"
                 })
             }else{
                 return{
-                    status: false,
+                    status:202,
+                    operation: false,
                     msge: "Ya existe el nombre "+data.name+" y no se puede usar este nombre"
                 }
             }
         } catch (error) {
             return {
-                status: true,
+                status: 400,
+                operation: false,
                 msg: error.message
             }
         }
@@ -113,20 +125,23 @@ export class QuizService {
             const quizToDelete = await this.quizRepository.findBy({id: id});
             if (quizToDelete.length == 0) {
                 return {
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "No se encontro quiz a eliminar"
                 }
             }else{
                 await this.quizRepository.remove(quizToDelete);
                 return {
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Quiz eliminado exitosamente"
                 }
             }
 
         } catch (error) {
             return {
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }

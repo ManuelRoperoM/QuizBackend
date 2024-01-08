@@ -27,13 +27,15 @@ export class QuestionsService {
                 });
             }));
             return{ 
-                    status : true,
+                    status : 200,
+                    operation: false,
                     msg: "Preguntas guardadas con exito",
                     questions: questionData
             }
         } catch (error) {
             return { 
-                status: false,
+                status:400,
+                operation: false,
                 msg: error.message
             };
         }
@@ -48,12 +50,14 @@ export class QuestionsService {
                 quizId: data.quizId
             })
             return{
-                status: true,
+                status: 200,
+                operation: true,
                 msge: "Pregunta creada correctamente"
             }
         } catch (error) {
             return {
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
@@ -64,14 +68,16 @@ export class QuestionsService {
             
             const allQuestions = await this.questionsRepository.find();
             return{
-                status: true,
+                status: 200,
+                operation:true,
                 msge: "Preguntas encontradas con exito",
                 data: allQuestions
             }
             
         } catch (error) {
             return {
-                status: false,
+                status: 200,
+                operation: false,
                 msge: error.message
             }
         }
@@ -83,13 +89,15 @@ export class QuestionsService {
             const quisQuestions =  await this.questionsRepository.findBy({quizId:quizId});
             if (quisQuestions.length > 0) {
                 return{
-                    status: true,
+                    status: 200,
+                    operation:true,
                     msge: "Preguntas encontradas con exito",
                     data: quisQuestions
                 }
             }else{
                 return{
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "No se encontraron preguntas del quiz con ID: "+quizId
                 }
             }
@@ -106,19 +114,22 @@ export class QuestionsService {
             const existQuestion = await this.questionsRepository.findBy({id: data.id});
             if (existQuestion.length == 0) {
                 return{
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "No existe el quiz con id "+data.id
                 }
             }else {
                 await this.questionsRepository.update(data.id,data);
                 return{
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Pregunta actualizada con exito"
                 } 
             }
         } catch (error) {
             return {
-                status:false,
+                status:400,
+                operation:false,
                 msge: error.message
             }
         }
@@ -130,18 +141,21 @@ export class QuestionsService {
             if (quiestionToDelete.length > 0) {
                 await this.questionsRepository.remove(quiestionToDelete);
                 return{
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Pregunta eliminada correctamente"
                 }
             } else {
                 return {
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "No se encontro pregunta a eliminar"
                 }
             }
         } catch (error) {
             return {
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }

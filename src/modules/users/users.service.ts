@@ -20,19 +20,22 @@ export class UsersService {
                     email: data.email
                 })
                 return{
-                    status:true,
+                    status:200,
+                    operation:true,
                     msge: "Usuario creado con exito"
                 }                 
             } else {
                 return{
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "Ya existe el email: "+data.email+" registrado"
                 }
             }
 
         } catch (error) {
             return({
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             })
         }
@@ -42,13 +45,15 @@ export class UsersService {
         try {
             const allUsers = await this.usersRepository.find();
             return{
-                status: true,
+                status: 200,
+                operation: true,
                 msge: "Usuarios encontrados correctamente",
                 data: allUsers
             }
         } catch (error) {
             return{
-                status:false,
+                status: 400,
+                operation:false,
                 error: error.message
             }
         }
@@ -59,19 +64,22 @@ export class UsersService {
             const user = await this.usersRepository.findBy({id:id});
             if (user.length > 0) {
                 return{
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Usuario encontrado con exito",
                     data: user
                 }
             } else {
                 return{
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "No existe usuario con id "+id
                 }
             }
         } catch (error) {
             return{
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
@@ -83,18 +91,21 @@ export class UsersService {
             if (existUser.length == 0) {
                 await this.usersRepository.update(data.id,data);
                 return{
-                    status:true,
+                    status: 200,
+                    operation:true,
                     msge: "Usuario actualizado correctamente",
                 }
             } else {
                 return{
-                    status: false,
+                    status: 202,
+                    operation: false,
                     msge: "Ya existe el email: "+data.email+" registrado"
                 }
             }
         } catch (error) {
             return {
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
@@ -106,18 +117,21 @@ export class UsersService {
             if (userToDelete.length > 0) {
                 await this.usersRepository.remove(userToDelete);
                 return{
-                    status: true,
+                    status: 200,
+                    operation: true,
                     msge: "Usuario eliminado correctamente"
                 }
             } else {
                 return{
-                    status: false,
-                    msge: "NO existe usuario con id: "+id
+                    status: 202,
+                    operation: false,
+                    msge: "No existe usuario con id: "+id
                 }
             }
         } catch (error) {
             return{
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
