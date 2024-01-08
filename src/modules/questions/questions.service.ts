@@ -22,13 +22,14 @@ export class QuestionsService {
                 await this.questionsRepository.save({
                     category: question.category,
                     question: question.question,
-                    correctAnswer: question.correct_answer,
+                    correctAnswer: question.correct_answer == 'False' ? false : true,
+                    //correctAnswer : question.correct_answer,
                     quizId: quizId,
                 });
             }));
             return{ 
                     status : 200,
-                    operation: false,
+                    operation: true,
                     msg: "Preguntas guardadas con exito",
                     questions: questionData
             }
@@ -103,7 +104,8 @@ export class QuestionsService {
             }
         } catch (error) {
             return {
-                status: false,
+                status: 400,
+                operation: false,
                 msge: error.message
             }
         }
