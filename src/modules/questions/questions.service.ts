@@ -23,7 +23,6 @@ export class QuestionsService {
                     category: question.category,
                     question: question.question,
                     correctAnswer: question.correct_answer == 'False' ? false : true,
-                    //correctAnswer : question.correct_answer,
                     quizId: quizId,
                 });
             }));
