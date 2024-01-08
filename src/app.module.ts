@@ -16,7 +16,9 @@ import { AnswersModule } from './modules/answers/answers.module';
 import { Answers } from './modules/answers/answers.entity';
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     QuizModule, 
     DatabaseModule, 
   //   TypeOrmModule.forRoot({
@@ -30,12 +32,12 @@ import { Answers } from './modules/answers/answers.entity';
   //   synchronize: true,
   // }),
   TypeOrmModule.forRoot({
-    type: 'mysql',
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT, 10) || 3306,
-    username: process.env.DB_USERNAME || 'user',
-    password: process.env.DB_PASSWORD || 'secret',
-    database: process.env.DB_DATABASE || 'QUIZ',
+    type: 'postgres',
+    host: process.env.DB_HOST, // || 'localhost',
+    port: parseInt(process.env.DB_PORT, 10), // || 5436,
+    username: process.env.DB_USERNAME, // || 'user',
+    password: process.env.DB_PASSWORD, // || 'secret',
+    database: process.env.DB_DATABASE, // || 'QUIZ',
     entities: [Quiz, Test, Questions, Users, Answers],
     synchronize: true,
   }),  
