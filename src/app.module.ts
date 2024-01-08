@@ -40,6 +40,15 @@ import { Answers } from './modules/answers/answers.entity';
     database: process.env.DB_DATABASE, // || 'QUIZ',
     entities: [Quiz, Test, Questions, Users, Answers],
     synchronize: true,
+    ssl: process.env.POSTGRES_SSL === "true",
+    extra: {
+      ssl:
+        process.env.POSTGRES_SSL === "true"
+          ? {
+              rejectUnauthorized: false,
+            }
+          : null,
+    },
   }),  
   TestModule, 
   QuestionsModule, 
